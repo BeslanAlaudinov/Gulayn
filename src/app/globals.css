@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+/* Токены цвета ссылаются на переменные темы, поэтому одна разметка работает в обеих темах. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-well: var(--well);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-hover: var(--hover);
+  --color-text: var(--text);
+  --color-soft: var(--soft);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-wave-off: var(--wave-off);
+  --color-tag-subj: var(--tag-subj);
+  --color-tag-light: var(--tag-light);
+  --color-tag-cam: var(--tag-cam);
+  --color-tag-mood: var(--tag-mood);
+
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+}
+
+/* Тёмная тема: по умолчанию. Класс .theme-dark держит её внутри чёлки при любой теме сайта. */
+:root,
+.theme-dark {
+  color-scheme: dark;
+  --bg: #0d0d0f;
+  --card: #141416;
+  --card-2: #1b1b1e;
+  --well: #0f0f11;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.16);
+  --hover: rgb(255 255 255 / 0.05);
+  --text: #fafafa;
+  --soft: #e4e4e7;
+  --muted: #a1a1aa;
+  --dim: #71717a;
+  --faint: #52525b;
+  --accent: #ff6b35;
+  --accent-hover: #ff7d4d;
+  --accent-soft: #ffb08a;
+  --on-accent: #ffffff;
+  --wave-off: #3f3f46;
+  --dot: rgb(255 255 255 / 0.07);
+  --tag-subj: #e4e4e7;
+  --tag-light: #ff8a57;
+  --tag-cam: #7aa2ff;
+  --tag-mood: #6fd3a8;
+  --logo-filter: brightness(0) invert(1);
+}
+
+/* Светлая тема */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f6f7;
+  --card: #ffffff;
+  --card-2: #f0f0f2;
+  --well: #f3f3f5;
+  --line: rgb(12 12 14 / 0.08);
+  --line-strong: rgb(12 12 14 / 0.16);
+  --hover: rgb(12 12 14 / 0.04);
+  --text: #0c0c0e;
+  --soft: #27272a;
+  --muted: #52525b;
+  --dim: #71717a;
+  --faint: #a1a1aa;
+  --accent: #ff6b35;
+  --accent-hover: #ff7d4d;
+  --accent-soft: #c2410c;
+  --on-accent: #ffffff;
+  --wave-off: #d4d4d8;
+  --dot: rgb(12 12 14 / 0.08);
+  --tag-subj: #18181b;
+  --tag-light: #e0561b;
+  --tag-cam: #2f62d8;
+  --tag-mood: #128a5c;
+  --logo-filter: brightness(0);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Плавная смена темы: включается только на время переключения */
+html.theme-switching,
+html.theme-switching * {
+  transition:
+    background-color 0.45s ease,
+    border-color 0.45s ease,
+    color 0.45s ease,
+    fill 0.45s ease !important;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  letter-spacing: -0.4px;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(255 107 53 / 0.35);
+}
+
+/* Бегущая оранжевая рамка у промпт-бара */
+@property --sweep-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.sweep {
+  background: conic-gradient(
+    from var(--sweep-angle),
+    rgb(255 107 53 / 0) 0deg,
+    rgb(255 107 53 / 0) 240deg,
+    #ff9a4d 300deg,
+    #ff5a1f 335deg,
+    rgb(255 107 53 / 0) 360deg
+  );
+  animation: sweep-spin 5s linear infinite;
+}
+
+@keyframes sweep-spin {
+  to {
+    --sweep-angle: 360deg;
+  }
+}
+
+.caret {
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.marquee {
+  animation: marquee-scroll 80s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/*
+ * Чёлка: вогнутые скругления по бокам с той же обводкой, что у самой чёлки.
+ * Ухо шире на 1px и перекрывает боковую обводку там, где начинается изгиб.
+ */
+.notch {
+  --notch-line: #2b2b30;
+  border: 1px solid var(--notch-line);
+  border-top: 0;
+}
+
+.notch::before,
+.notch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 17px;
+  height: 16px;
+}
+
+.notch::before {
+  left: -17px;
+  background: radial-gradient(
+    circle at 0 100%,
+    transparent 15.4px,
+    var(--notch-line) 15.9px,
+    var(--notch-line) 16.6px,
+    #000 17.1px
+  );
+}
+
+.notch::after {
+  right: -17px;
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent 15.4px,
+    var(--notch-line) 15.9px,
+    var(--notch-line) 16.6px,
+    #000 17.1px
+  );
+}
+
+/* Мелочи: стрелка уезжает вправо, иконка загрузки чуть опускается при наведении */
+.i-arrow,
+.i-download {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+a:hover .i-arrow,
+button:hover .i-arrow {
+  transform: translateX(3px);
+}
+
+a:hover .i-download,
+button:hover .i-download {
+  transform: translateY(2px);
+}
+
+/* Плавное раскрытие ответов: высота через grid-rows */
+.answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.answer[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.answer > div {
+  overflow: hidden;
+}
+
+.pm-v {
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[aria-expanded="true"] .pm-v {
+  transform: scaleY(0);
+}
+
+.logo-mono {
+  filter: var(--logo-filter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .sweep,
+  .caret,
+  .marquee {
+    animation: none;
+  }
+
+  .answer,
+  .pm-v,
+  .i-arrow,
+  .i-download {
+    transition: none;
+  }
+}
