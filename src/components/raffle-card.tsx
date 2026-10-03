@@ -6,19 +6,10 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Close } from "./icons";
 import { asset } from "@/lib/asset";
 
-const DISMISS_KEY = "gulayn-raffle-dismissed";
-
-function wasDismissed() {
-  try {
-    return localStorage.getItem(DISMISS_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
 /**
- * Карточка розыгрыша в углу. Появляется один раз, когда человек доходит до тарифов,
- * или сразу по ссылке «Розыгрыш» в шапке (#raffle). Крестик скрывает её насовсем.
+ * Карточка розыгрыша в углу. Появляется, когда человек доходит до тарифов,
+ * или сразу по ссылке «Розыгрыш» в шапке (#raffle). Крестик скрывает её только
+ * до обновления страницы: после перезагрузки карточка снова на месте.
  */
 export function RaffleCard() {
   const [shown, setShown] = useState(false);
@@ -32,7 +23,7 @@ export function RaffleCard() {
 
     const pricing = document.getElementById("pricing");
     let observer: IntersectionObserver | undefined;
-    if (pricing && !wasDismissed()) {
+    if (pricing) {
       observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -53,9 +44,6 @@ export function RaffleCard() {
 
   const dismiss = () => {
     setShown(false);
-    try {
-      localStorage.setItem(DISMISS_KEY, "1");
-    } catch {}
     if (location.hash === "#raffle") history.replaceState(null, "", location.pathname);
   };
 
