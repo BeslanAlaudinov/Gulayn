@@ -34,8 +34,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body className="min-h-dvh">
-        {/* Чёрная полоса под строкой состояния: на iPhone её высота равна безопасному отступу, на остальных 0 */}
-        <div aria-hidden="true" className="fixed inset-x-0 top-0 z-50 h-[env(safe-area-inset-top)] bg-black" />
+        {/* Чёрная полоса под строкой состояния. Safari 26 красит строку состояния в цвет полосы во всю ширину у верхнего края, поэтому на телефоне она не меньше 2px */}
+        <div aria-hidden="true" className="fixed inset-x-0 top-0 z-50 h-[max(env(safe-area-inset-top),2px)] bg-black sm:h-[env(safe-area-inset-top)]" />
         <MotionProvider>{children}</MotionProvider>
         <LangEffects />
       </body>
