@@ -14,7 +14,7 @@ export function Hero() {
         className="absolute inset-0 bg-[radial-gradient(var(--dot)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_55%_at_50%_40%,#000_30%,transparent_100%)]"
       />
 
-      <div className="relative z-10 flex w-full max-w-[880px] flex-col items-center px-4 pt-32 text-center">
+      <div className="relative z-10 flex w-full max-w-[880px] flex-col items-center px-4 pt-[calc(8rem+env(safe-area-inset-top))] text-center">
         <Reveal onLoad>
           <h1 className="text-[44px] font-medium leading-[1.04] tracking-[-1.6px] sm:text-[72px] sm:tracking-[-2.8px]">
             {t.hero.title1}
