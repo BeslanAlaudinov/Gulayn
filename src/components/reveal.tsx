@@ -8,7 +8,14 @@ export const DURATION = 0.9;
 
 const item: Variants = {
   hidden: { opacity: 0, y: 28, filter: "blur(10px)" },
-  shown: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: DURATION, ease: EASE } },
+  // После анимации фильтр и сдвиг снимаются, чтобы элемент не держал отдельный слой
+  shown: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: DURATION, ease: EASE },
+    transitionEnd: { filter: "none", transform: "none" },
+  },
 };
 
 const inView = { whileInView: "shown", viewport: { once: true, amount: 0.2 } } as const;
@@ -30,7 +37,13 @@ export function Reveal({ children, className, delay = 0, onLoad = false }: Revea
       initial="hidden"
       variants={{
         hidden: item.hidden,
-        shown: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: DURATION, ease: EASE, delay } },
+        shown: {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: DURATION, ease: EASE, delay },
+          transitionEnd: { filter: "none", transform: "none" },
+        },
       }}
       {...(onLoad ? onMount : inView)}
     >

@@ -16,18 +16,26 @@ function subscribe(onChange: () => void) {
 
 const getTheme = (): Theme => (document.documentElement.dataset.theme === "light" ? "light" : "dark");
 
-function setTheme(next: Theme) {
+function applyTheme(next: Theme) {
   const root = document.documentElement;
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!reduce) {
-    root.classList.add("theme-switching");
-    window.setTimeout(() => root.classList.remove("theme-switching"), 500);
-  }
   if (next === "light") root.dataset.theme = "light";
   else delete root.dataset.theme;
   try {
     localStorage.setItem(THEME_KEY, next);
   } catch {}
+}
+
+/**
+ * Плавная смена через View Transitions: браузер перетекает снимок «до» в снимок «после».
+ * Где API нет или включено уменьшение движения, тема меняется мгновенно.
+ */
+function setTheme(next: Theme) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("startViewTransition" in document)) {
+    applyTheme(next);
+    return;
+  }
+  document.startViewTransition(() => applyTheme(next));
 }
 
 export function useTheme() {

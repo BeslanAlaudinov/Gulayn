@@ -88,14 +88,11 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Плавная смена темы: включается только на время переключения */
-html.theme-switching,
-html.theme-switching * {
-  transition:
-    background-color 0.45s ease,
-    border-color 0.45s ease,
-    color 0.45s ease,
-    fill 0.45s ease !important;
+/* Смена темы: браузер плавно перетекает снимок страницы (View Transitions), это дёшево */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: ease;
 }
 
 body {
