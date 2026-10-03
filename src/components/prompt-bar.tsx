@@ -53,7 +53,7 @@ export function PromptBar() {
         aria-label={t.hero.start}
         className="group relative flex flex-col gap-6 rounded-[20px] bg-card pb-4 pl-5 pr-4 pt-5 text-left transition-colors hover:bg-card-2"
       >
-        <span className="block h-12 overflow-hidden text-base leading-6 text-text sm:h-auto sm:min-h-7 sm:text-xl sm:leading-7" aria-hidden="true">
+        <span className="block h-13 overflow-hidden text-base leading-6 text-text sm:h-auto sm:min-h-7 sm:text-xl sm:leading-7" aria-hidden="true">
           {typed}
           <span className="caret ml-1 inline-block h-6 w-0.5 translate-y-1 bg-accent" />
         </span>

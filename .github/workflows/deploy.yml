@@ -11,9 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+# Новая сборка отменяет старую, чтобы устаревшая версия не перезаписала сайт позже
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
