@@ -34,8 +34,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body className="min-h-dvh">
-        {/* Чёрная полоса под строкой состояния. Safari 26 красит строку состояния в цвет полосы во всю ширину у верхнего края, если та не ниже 6px, поэтому на телефоне полоса не меньше 6px */}
-        <div aria-hidden="true" className="fixed inset-x-0 top-0 z-50 h-[max(env(safe-area-inset-top),6px)] bg-black sm:h-[env(safe-area-inset-top)]" />
+        {/* Чёрная полоса под строкой состояния. Safari 26 красит строку состояния в цвет полосы во всю ширину у верхнего края, если та не ниже 6px, поэтому на телефоне полоса не меньше 6px. Линия под ней продолжает обводку чёлки; это тень, а не рамка: цвет рамки Safari взял бы для строки состояния */}
+        <div aria-hidden="true" className="fixed inset-x-0 top-0 z-50 h-[max(env(safe-area-inset-top),6px)] bg-black shadow-[0_1px_0_#2b2b30] sm:h-[env(safe-area-inset-top)] sm:shadow-none" />
         <MotionProvider>{children}</MotionProvider>
         <LangEffects />
       </body>
