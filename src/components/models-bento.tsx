@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useT } from "@/i18n/use-t";
 import { ArrowRight, Pause, Play } from "./icons";
 import { SectionHead, Stagger, StaggerItem } from "./reveal";
 import { asset } from "@/lib/asset";
@@ -49,19 +52,21 @@ function Bubble({ children, className = "" }: { children: React.ReactNode; class
 
 /** Второй экран: нейросети, собранные по задачам. */
 export function ModelsBento() {
+  const { t } = useT();
+  const m = t.models;
   return (
     <section id="models" className="mx-auto max-w-[1248px] px-4 py-16 sm:px-8 sm:py-20">
       <SectionHead
         center
         className="mx-auto max-w-[720px] text-center"
-        title="Нейросеть под каждую задачу"
-        lead={<>Пишите, рисуйте, снимайте и озвучивайте в одном окне. Лучшие модели собраны по задачам, переключение в&nbsp;один клик.</>}
+        title={m.title}
+        lead={m.lead}
       />
 
       <Stagger className="mt-16 grid grid-cols-6 gap-3" delay={0.35} gap={0.15}>
         <StaggerItem className="col-span-6 lg:col-span-4">
           <a href="#text" className={tile}>
-            <TileTitle title="Текст и чат" note="Ответ можно переспросить у другой модели" />
+            <TileTitle title={m.text.title} note={m.text.note} />
             <div className="flex flex-wrap gap-2">
               <Chip logo="openai">GPT-6 Astra</Chip>
               <Chip logo="openai">GPT-5.6</Chip>
@@ -71,19 +76,16 @@ export function ModelsBento() {
               <Chip logo="qwen">Qwen</Chip>
             </div>
             <div className="flex flex-1 flex-col justify-end rounded-2xl border border-line bg-well p-4">
-              <Bubble>Разбери договор аренды и выпиши риски для арендатора</Bubble>
+              <Bubble>{m.text.q1}</Bubble>
               <ChatAnswer logo="claude">
-                <b className="font-medium text-text">Нашёл три риска.</b> Штраф за досрочный выезд равен трём месяцам
-                аренды. Индексация цены не ограничена сверху. Текущий ремонт полностью на арендаторе, включая технику
-                собственника.
+                <b className="font-medium text-text">{m.text.a1Lead}</b> {m.text.a1}
               </ChatAnswer>
-              <Bubble className="mt-5">Теперь коротко, для письма собственнику</Bubble>
+              <Bubble className="mt-5">{m.text.q2}</Bubble>
               <ChatAnswer logo="openai">
-                <b className="font-medium text-text">GPT-5.6:</b> Предлагаю ограничить индексацию 7% в год, снизить
-                штраф до одного месяца и закрепить ремонт техники за собственником.
+                <b className="font-medium text-text">GPT-5.6:</b> {m.text.a2}
               </ChatAnswer>
               <div className="mt-4 flex flex-wrap items-center gap-2 whitespace-nowrap text-xs text-dim">
-                <span>Модель в этом чате:</span>
+                <span>{m.text.modelInChat}</span>
                 <span>Claude</span>
                 <span className="rounded-lg bg-card-2 px-2 py-1 text-text">GPT-5.6</span>
                 <span>Gemini</span>
@@ -94,7 +96,7 @@ export function ModelsBento() {
 
         <StaggerItem className="col-span-6 lg:col-span-2">
           <a href="#images" className={tile}>
-            <TileTitle title="Изображения" />
+            <TileTitle title={m.images.title} />
             <div className="flex flex-wrap gap-2">
               <Chip logo="openai">GPT Image</Chip>
               <Chip logo="nanobanana">Nano Banana</Chip>
@@ -102,13 +104,13 @@ export function ModelsBento() {
             </div>
             <div className="mt-auto grid grid-cols-2 gap-2">
               <div className="relative col-span-2 aspect-[2/1] overflow-hidden rounded-xl">
-                <Image src={asset("/images/gallery-dunes.jpg")} alt="Пустынные дюны" fill sizes="(min-width: 1024px) 360px, 100vw" className="object-cover" />
+                <Image src={asset("/images/gallery-dunes.jpg")} alt={m.images.alts[0]} fill sizes="(min-width: 1024px) 360px, 100vw" className="object-cover" />
               </div>
               <div className="relative aspect-square overflow-hidden rounded-xl">
-                <Image src={asset("/images/abstract.jpg")} alt="Абстрактная 3D-форма" fill sizes="(min-width: 1024px) 180px, 50vw" className="object-cover" />
+                <Image src={asset("/images/abstract.jpg")} alt={m.images.alts[1]} fill sizes="(min-width: 1024px) 180px, 50vw" className="object-cover" />
               </div>
               <div className="relative aspect-square overflow-hidden rounded-xl">
-                <Image src={asset("/images/gallery-neon.jpg")} alt="Портрет в неоновом свете" fill sizes="(min-width: 1024px) 180px, 50vw" className="object-cover" />
+                <Image src={asset("/images/gallery-neon.jpg")} alt={m.images.alts[2]} fill sizes="(min-width: 1024px) 180px, 50vw" className="object-cover" />
               </div>
             </div>
           </a>
@@ -116,9 +118,9 @@ export function ModelsBento() {
 
         <StaggerItem className="col-span-6 md:col-span-3">
           <a href="#video" className={tile}>
-            <TileTitle title="Видео" note="Veo, Runway, Kling, MiniMax, Pika" />
+            <TileTitle title={m.video.title} note="Veo, Runway, Kling, MiniMax, Pika" />
             <div className="relative mt-auto aspect-[2/1] overflow-hidden rounded-2xl">
-              <Image src={asset("/images/gallery-waterfall.jpg")} alt="Кадр с водопадом" fill sizes="(min-width: 768px) 560px, 100vw" className="object-cover brightness-[.8]" />
+              <Image src={asset("/images/gallery-waterfall.jpg")} alt={m.video.alt} fill sizes="(min-width: 768px) 560px, 100vw" className="object-cover brightness-[.8]" />
               <span className="absolute left-1/2 top-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white">
                 <Play size={20} />
               </span>
@@ -135,7 +137,7 @@ export function ModelsBento() {
 
         <StaggerItem className="col-span-6 md:col-span-3">
           <a href="#audio" className={tile}>
-            <TileTitle title="Аудио" note="Голос, музыка и транскрибация" />
+            <TileTitle title={m.audio.title} note={m.audio.note} />
             <div className="flex flex-wrap gap-2">
               <Chip logo="elevenlabs">ElevenLabs</Chip>
               <Chip logo="suno">Suno</Chip>
@@ -148,8 +150,8 @@ export function ModelsBento() {
                   <Pause />
                 </span>
                 <span>
-                  <b className="block text-base font-medium">Утро у моря</b>
-                  <span className="mt-1 block text-xs text-dim">Suno · инди для рекламы кофейни · 0:30</span>
+                  <b className="block text-base font-medium">{m.audio.track}</b>
+                  <span className="mt-1 block text-xs text-dim">{m.audio.meta}</span>
                 </span>
               </div>
               <div aria-hidden="true" className="flex h-18 items-center gap-1">
@@ -164,11 +166,7 @@ export function ModelsBento() {
         <StaggerItem className="col-span-6">
           <div className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border border-line bg-card p-6">
             <div className="flex flex-wrap gap-12">
-              {[
-                ["200+", "моделей"],
-                ["31+", "сервис"],
-                ["1 клик", "чтобы сменить модель"],
-              ].map(([n, l]) => (
+              {m.stats.map(([n, l]) => (
                 <div key={l}>
                   <b className="block text-[32px] font-medium tracking-[-1px]">{n}</b>
                   <span className="mt-1 block text-sm text-dim">{l}</span>
@@ -179,7 +177,7 @@ export function ModelsBento() {
               href="#register"
               className="flex h-12 items-center gap-2 rounded-[14px] bg-accent pl-6 pr-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
             >
-              Попробовать бесплатно <ArrowRight />
+              {m.cta} <ArrowRight />
             </a>
           </div>
         </StaggerItem>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { useT } from "@/i18n/use-t";
 import { Moon, Sun } from "./icons";
 
 export const THEME_KEY = "gulayn-theme";
@@ -46,11 +47,12 @@ export function useTheme() {
 /** Кнопка-иконка для шапки: показывает тему, в которую переключит. */
 export function ThemeIconButton({ className }: { className?: string }) {
   const { theme, toggle } = useTheme();
+  const { t } = useT();
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={theme === "dark" ? "Включить светлую тему" : "Включить тёмную тему"}
+      aria-label={theme === "dark" ? t.theme.toLight : t.theme.toDark}
       className={className}
     >
       {theme === "dark" ? <Sun /> : <Moon />}
@@ -61,10 +63,11 @@ export function ThemeIconButton({ className }: { className?: string }) {
 /** Кнопка с подписью для подвала. */
 export function ThemeLabelButton({ className }: { className?: string }) {
   const { theme, toggle } = useTheme();
+  const { t } = useT();
   return (
     <button type="button" onClick={toggle} className={className}>
       {theme === "dark" ? <Moon /> : <Sun />}
-      {theme === "dark" ? "Тёмная тема" : "Светлая тема"}
+      {theme === "dark" ? t.theme.dark : t.theme.light}
     </button>
   );
 }

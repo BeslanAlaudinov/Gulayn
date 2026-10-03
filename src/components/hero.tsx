@@ -1,8 +1,12 @@
+"use client";
+
+import { useT } from "@/i18n/use-t";
 import { LogoMarquee } from "./logo-marquee";
 import { PromptBar } from "./prompt-bar";
 import { Reveal } from "./reveal";
 
 export function Hero() {
+  const { t } = useT();
   return (
     <section id="top" className="relative flex flex-col items-center overflow-hidden sm:min-h-[900px]">
       <div
@@ -13,22 +17,21 @@ export function Hero() {
       <div className="relative z-10 flex w-full max-w-[880px] flex-col items-center px-4 pt-32 text-center">
         <Reveal onLoad>
           <h1 className="text-[44px] font-medium leading-[1.04] tracking-[-1.6px] sm:text-[72px] sm:tracking-[-2.8px]">
-            Все нейросети.
+            {t.hero.title1}
             <br />
-            <span className="text-dim">Одна подписка.</span>
+            <span className="text-dim">{t.hero.title2}</span>
           </h1>
         </Reveal>
         <Reveal onLoad delay={0.25}>
           <p className="mt-6 max-w-[600px] text-lg leading-normal text-muted">
-            GPT, Claude, Gemini, Midjourney, Kling, Suno и ещё 200+ моделей для текста, картинок, видео и звука
-            в&nbsp;одном аккаунте.
+            {t.hero.lead}
           </p>
         </Reveal>
         <Reveal onLoad delay={0.5} className="mt-12 flex w-full justify-center">
           <PromptBar />
         </Reveal>
         <Reveal onLoad delay={0.7}>
-          <p className="mt-4 text-sm text-dim">180 токенов при регистрации. Карта не нужна.</p>
+          <p className="mt-4 text-sm text-dim">{t.hero.note}</p>
         </Reveal>
       </div>
 

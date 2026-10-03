@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { Globe } from "./icons";
+import { useT } from "@/i18n/use-t";
+import { LangLabelButton } from "./lang-toggle";
 import { EASE } from "./reveal";
 import { ThemeLabelButton } from "./theme-toggle";
 
@@ -10,6 +11,7 @@ type Link = { href: string; label: string };
 
 /** Меню для телефона и планшета: кнопка в чёлке и панель под ней. */
 export function MobileMenu({ links }: { links: Link[] }) {
+  const { t } = useT();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +33,7 @@ export function MobileMenu({ links }: { links: Link[] }) {
     <div ref={rootRef} className="lg:hidden">
       <button
         type="button"
-        aria-label={open ? "Закрыть меню" : "Открыть меню"}
+        aria-label={open ? t.header.closeMenu : t.header.openMenu}
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((v) => !v)}
@@ -47,7 +49,7 @@ export function MobileMenu({ links }: { links: Link[] }) {
         {open && (
           <motion.nav
             id="mobile-menu"
-            aria-label="Меню"
+            aria-label={t.header.menu}
             initial={{ opacity: 0, y: -8, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
@@ -69,15 +71,10 @@ export function MobileMenu({ links }: { links: Link[] }) {
               onClick={() => setOpen(false)}
               className="flex h-12 items-center rounded-xl px-4 text-base text-soft transition-colors hover:bg-hover hover:text-text sm:hidden"
             >
-              Войти
+              {t.header.login}
             </a>
             <div className="mt-2 flex gap-2 border-t border-line p-2 pt-4">
-              <button
-                type="button"
-                className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] border border-line text-sm text-muted transition-colors hover:text-text"
-              >
-                <Globe /> Русский
-              </button>
+              <LangLabelButton className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] border border-line text-sm text-muted transition-colors hover:text-text" />
               <ThemeLabelButton className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] border border-line text-sm text-muted transition-colors hover:text-text" />
             </div>
           </motion.nav>

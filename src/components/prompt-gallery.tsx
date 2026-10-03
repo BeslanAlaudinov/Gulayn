@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { gallery, promptTags, type Segment } from "@/data/content";
+import { galleryMedia } from "@/data/content";
+import type { TagKey } from "@/i18n/dict";
+import { useT } from "@/i18n/use-t";
 import { ArrowRight, Check, Copy } from "./icons";
 import { AnimatePresence, motion } from "motion/react";
 import { EASE, Reveal, Stagger, StaggerItem } from "./reveal";
 import { asset } from "@/lib/asset";
-
-type TagKey = NonNullable<Segment["tag"]>;
 
 const segColor: Record<TagKey, string> = {
   subj: "text-tag-subj border-tag-subj/40",
@@ -26,15 +26,29 @@ const segFocused: Record<TagKey, string> = {
 
 /** Третий экран: разбор промптов по смысловым частям. */
 export function PromptGallery() {
+  const { t } = useT();
+  const g = t.gallery;
+  const gallery = g.items.map((text, i) => ({ ...text, ...galleryMedia[i] }));
+  const tagKeys: TagKey[] = ["subj", "light", "cam", "mood"];
+  const tagColor: Record<TagKey, string> = {
+    subj: "bg-tag-subj",
+    light: "bg-tag-light",
+    cam: "bg-tag-cam",
+    mood: "bg-tag-mood",
+  };
   const [cur, setCur] = useState(0);
   const [focus, setFocus] = useState<TagKey | null>(null);
   const [copied, setCopied] = useState(false);
   const item = gallery[cur];
 
-  const go = useCallback((i: number) => {
-    setCur((i + gallery.length) % gallery.length);
-    setCopied(false);
-  }, []);
+  const count = galleryMedia.length;
+  const go = useCallback(
+    (i: number) => {
+      setCur((i + count) % count);
+      setCopied(false);
+    },
+    [count],
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -61,20 +75,19 @@ export function PromptGallery() {
       <Stagger className="flex flex-wrap items-end justify-between gap-6" gap={0.15}>
         <StaggerItem>
           <h2 className="max-w-[600px] text-[32px] font-medium leading-[1.08] tracking-[-1px] sm:text-5xl sm:tracking-[-1.6px]">
-            Как слова становятся кадром
+            {g.title}
           </h2>
         </StaggerItem>
         <StaggerItem>
           <p className="max-w-[440px] text-base leading-normal text-muted">
-            Хороший промпт описывает четыре вещи: что в кадре, какой свет, откуда смотрит камера и какое настроение.
-            Посмотрите на примерах.
+            {g.lead}
           </p>
         </StaggerItem>
       </Stagger>
 
       <Stagger className="mt-12 grid grid-cols-4 gap-2 sm:grid-cols-7" gap={0.08} delay={0.3}>
-        {gallery.map((g, i) => (
-          <StaggerItem key={g.title}>
+        {gallery.map((it, i) => (
+          <StaggerItem key={it.image}>
             <button
               type="button"
               aria-pressed={i === cur}
@@ -83,14 +96,14 @@ export function PromptGallery() {
             >
               <span className="relative block h-16 overflow-hidden rounded-[10px]">
                 <Image
-                  src={asset(g.image)}
+                  src={asset(it.image)}
                   alt=""
                   fill
                   sizes="160px"
                   className="object-cover brightness-[.55] saturate-[.8] transition-[filter] group-hover:brightness-[.85] group-aria-pressed:brightness-100 group-aria-pressed:saturate-100"
                 />
               </span>
-              <span className="truncate px-1">{g.title}</span>
+              <span className="truncate px-1">{it.title}</span>
             </button>
           </StaggerItem>
         ))}
@@ -110,7 +123,9 @@ export function PromptGallery() {
               <Image src={asset(item.image)} alt={item.title} fill sizes="(min-width: 768px) 560px, 100vw" className="object-cover" />
             </motion.div>
           </AnimatePresence>
-          <span className="absolute left-4 top-4 flex h-8 items-center rounded-[10px] bg-black/60 px-3 text-sm text-white">{item.type}</span>
+          <span className="absolute left-4 top-4 flex h-8 items-center rounded-[10px] bg-black/60 px-3 text-sm text-white">
+            {g.type[item.kind]}
+          </span>
         </div>
 
         <div className="flex flex-col gap-7 rounded-3xl border border-line bg-card p-6 sm:p-8">
@@ -124,23 +139,23 @@ export function PromptGallery() {
             {item.title}
           </motion.h3>
 
-          <div role="group" aria-label="Подсветить часть промпта" className="flex flex-wrap gap-2">
-            {promptTags.map((t) => (
+          <div role="group" aria-label={g.highlight} className="flex flex-wrap gap-2">
+            {tagKeys.map((key) => (
               <button
-                key={t.key}
+                key={key}
                 type="button"
-                aria-pressed={focus === t.key}
-                onClick={() => setFocus(focus === t.key ? null : t.key)}
+                aria-pressed={focus === key}
+                onClick={() => setFocus(focus === key ? null : key)}
                 className="flex h-9 items-center gap-2 rounded-[10px] border border-line px-3 text-sm text-muted transition-colors hover:text-text aria-pressed:border-line-strong aria-pressed:bg-card-2 aria-pressed:text-text"
               >
-                <i className={`size-2.5 rounded-[3px] ${t.color}`} />
-                {t.label}
+                <i className={`size-2.5 rounded-[3px] ${tagColor[key]}`} />
+                {g.tags[key]}
               </button>
             ))}
           </div>
 
           <motion.p
-            key={`prompt-${cur}`}
+            key={`prompt-${cur}-${t.lang.short}`}
             className="text-lg leading-relaxed tracking-[-0.6px] text-muted sm:text-2xl"
             initial={{ opacity: 0, y: 8, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -163,7 +178,7 @@ export function PromptGallery() {
           </motion.p>
 
           <p className="rounded-2xl border border-line bg-well px-5 py-4 text-sm leading-relaxed text-muted">
-            <b className="font-medium text-text">{item.tip.lead}</b> {item.tip.text}
+            <b className="font-medium text-text">{g.tipLead}</b> {item.tip}
           </p>
 
           <div className="mt-auto flex flex-wrap gap-2">
@@ -186,19 +201,19 @@ export function PromptGallery() {
                   {copied ? <Check /> : <Copy />}
                 </motion.span>
               </AnimatePresence>
-              <span aria-live="polite">{copied ? "Скопировано" : "Скопировать промпт"}</span>
+              <span aria-live="polite">{copied ? g.copied : g.copy}</span>
             </button>
             <a
               href="#register"
               className="flex h-12 items-center gap-2 rounded-[14px] bg-accent px-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
             >
-              Попробовать с этим промптом <ArrowRight />
+              {g.try} <ArrowRight />
             </a>
           </div>
         </div>
       </Reveal>
 
-      <p className="mt-6 text-xs text-dim">Референсные кадры, а не выдача сервиса. Промпты показывают, как описывают сцену.</p>
+      <p className="mt-6 text-xs text-dim">{g.note}</p>
     </section>
   );
 }

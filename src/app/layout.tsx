@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import { LangEffects } from "@/components/lang-effects";
 import { MotionProvider } from "@/components/motion-provider";
 import "./globals.css";
 
@@ -9,8 +10,9 @@ const geist = Geist({
   weight: ["400", "500"],
 });
 
-// Тема из адреса (?theme=light) важнее сохранённой, это удобно для ссылок на светлую версию
-const themeScript = `try{var q=new URLSearchParams(location.search).get("theme");var t=q||localStorage.getItem("gulayn-theme");if(t==="light")document.documentElement.dataset.theme="light"}catch(e){}`;
+// Тема и язык ставятся до первой отрисовки. Параметры адреса (?theme=light, ?lang=en) важнее сохранённых:
+// так удобно делиться ссылкой на нужную версию.
+const bootScript = `try{var p=new URLSearchParams(location.search),r=document.documentElement;var t=p.get("theme")||localStorage.getItem("gulayn-theme");if(t==="light")r.dataset.theme="light";var l=p.get("lang")||localStorage.getItem("gulayn-lang");if(l==="en")r.lang="en"}catch(e){}`;
 
 export const metadata: Metadata = {
   title: "Gulayn — все нейросети в одной подписке",
@@ -22,11 +24,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ru" className={`${geist.variable} antialiased`} suppressHydrationWarning>
       <head>
-        {/* Тема ставится до первой отрисовки, чтобы светлая не мигала тёмной */}
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body className="min-h-dvh">
         <MotionProvider>{children}</MotionProvider>
+        <LangEffects />
       </body>
     </html>
   );

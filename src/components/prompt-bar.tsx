@@ -2,7 +2,7 @@
 
 import { useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
-import { heroPrompts } from "@/data/content";
+import { useT } from "@/i18n/use-t";
 import { ArrowRight, ChevronDown, Mic, Plus } from "./icons";
 
 const TICK = 45;
@@ -10,7 +10,7 @@ const HOLD_TICKS = 44;
 const ERASE_STEP = 3;
 
 /** Печатает и стирает примеры промптов по кругу. */
-function useTypewriter() {
+function useTypewriter(prompts: { model: string; text: string }[]) {
   const reduce = useReducedMotion();
   const [state, setState] = useState({ i: 0, n: 0, mode: "type" as "type" | "hold" | "erase", hold: 0 });
 
@@ -18,18 +18,18 @@ function useTypewriter() {
     if (reduce) return;
     const id = setInterval(() => {
       setState((s) => {
-        const len = heroPrompts[s.i].text.length;
+        const len = prompts[s.i].text.length;
         if (s.mode === "type") return s.n < len ? { ...s, n: s.n + 1 } : { ...s, mode: "hold", hold: 0 };
         if (s.mode === "hold") return s.hold < HOLD_TICKS ? { ...s, hold: s.hold + 1 } : { ...s, mode: "erase" };
         return s.n > 0
           ? { ...s, n: Math.max(0, s.n - ERASE_STEP) }
-          : { i: (s.i + 1) % heroPrompts.length, n: 0, mode: "type", hold: 0 };
+          : { i: (s.i + 1) % prompts.length, n: 0, mode: "type", hold: 0 };
       });
     }, TICK);
     return () => clearInterval(id);
-  }, [reduce]);
+  }, [reduce, prompts]);
 
-  const current = heroPrompts[state.i];
+  const current = prompts[state.i];
   return { typed: reduce ? current.text : current.text.slice(0, state.n), model: current.model };
 }
 
@@ -38,7 +38,8 @@ function useTypewriter() {
  * ввести задачу на лендинге нельзя, человек всё равно идёт на регистрацию.
  */
 export function PromptBar() {
-  const { typed, model } = useTypewriter();
+  const { t } = useT();
+  const { typed, model } = useTypewriter(t.hero.prompts);
 
   return (
     <div className="relative w-full max-w-[720px] rounded-[21px] bg-line-strong p-px">
@@ -49,7 +50,7 @@ export function PromptBar() {
       <div aria-hidden="true" className="sweep absolute inset-0 rounded-[21px]" />
       <a
         href="#register"
-        aria-label="Начать бесплатно"
+        aria-label={t.hero.start}
         className="group relative flex flex-col gap-6 rounded-[20px] bg-card pb-4 pl-5 pr-4 pt-5 text-left transition-colors hover:bg-card-2"
       >
         <span className="block min-h-7 text-xl leading-7 text-text" aria-hidden="true">
@@ -72,8 +73,8 @@ export function PromptBar() {
               <Mic />
             </span>
             <span className="flex h-9 items-center gap-2 rounded-[10px] whitespace-nowrap bg-accent pl-4 pr-3 text-sm font-medium text-on-accent transition-colors group-hover:bg-accent-hover">
-              <span className="sm:hidden">Начать</span>
-              <span className="hidden sm:inline">Начать бесплатно</span>
+              <span className="sm:hidden">{t.hero.startShort}</span>
+              <span className="hidden sm:inline">{t.hero.start}</span>
               <ArrowRight />
             </span>
           </span>

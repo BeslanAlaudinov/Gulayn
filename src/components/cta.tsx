@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/use-t";
 import { ArrowRight, Download } from "./icons";
 import { Reveal, Stagger, StaggerItem } from "./reveal";
 import { asset } from "@/lib/asset";
@@ -19,6 +22,8 @@ const tiles = [
 
 /** Финальный призыв: слева действие, справа сетка нейросетей с Gulayn в центре. */
 export function Cta() {
+  const { t } = useT();
+  const c = t.cta;
   return (
     <section className="mx-auto max-w-[1248px] px-4 py-16 sm:px-8 sm:py-20">
       <Reveal>
@@ -26,14 +31,14 @@ export function Cta() {
           <Stagger className="flex flex-col gap-8 p-7 sm:p-12" gap={0.15} delay={0.25}>
             <StaggerItem>
               <h2 className="text-[32px] font-medium leading-[1.08] tracking-[-1px] sm:text-5xl sm:tracking-[-1.6px]">
-                Все нейросети
+                {c.title1}
                 <br />
-                уже ждут вас
+                {c.title2}
               </h2>
             </StaggerItem>
             <StaggerItem className="-mt-4">
               <p className="max-w-[560px] text-lg leading-normal text-muted">
-                Создайте аккаунт за 30 секунд и попробуйте любую модель на бесплатных токенах.
+                {c.lead}
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
@@ -41,24 +46,22 @@ export function Cta() {
                 href="#register"
                 className="flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-[14px] bg-accent pl-6 pr-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
               >
-                Создать бесплатный аккаунт <ArrowRight />
+                {c.create} <ArrowRight />
               </a>
               <a
                 href="#download"
                 className="flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-[14px] border border-line-strong px-5 text-base transition-colors hover:bg-hover"
               >
-                <Download /> Скачать приложение
+                <Download /> {c.download}
               </a>
             </StaggerItem>
             <StaggerItem className="mt-auto flex gap-8 text-sm text-dim">
-              <div>
-                <b className="mb-1 block text-2xl font-medium tracking-[-0.8px] text-text tabular-nums">180</b>
-                токенов в подарок
-              </div>
-              <div>
-                <b className="mb-1 block text-2xl font-medium tracking-[-0.8px] text-text tabular-nums">30 сек</b>
-                на регистрацию
-              </div>
+              {c.stats.map(([n, l]) => (
+                <div key={l}>
+                  <b className="mb-1 block text-2xl font-medium tracking-[-0.8px] text-text tabular-nums">{n}</b>
+                  {l}
+                </div>
+              ))}
             </StaggerItem>
           </Stagger>
 

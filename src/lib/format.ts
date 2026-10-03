@@ -1,14 +1,13 @@
-/** 12345 → «12 345 ₽» с неразрывными пробелами. */
-export function rub(n: number) {
-  return `${n.toLocaleString("ru-RU").replace(/\s/g, " ")} ₽`;
+import type { Lang } from "@/i18n/lang";
+
+const locale = (lang: Lang) => (lang === "en" ? "en-US" : "ru-RU");
+
+/** 43000 → «43 000» (ru) или «43,000» (en), с неразрывными пробелами. */
+export function num(n: number, lang: Lang = "ru") {
+  return n.toLocaleString(locale(lang)).replace(/\s/g, " ");
 }
 
-/** 43000 → «43 000» с неразрывным пробелом. */
-export function num(n: number) {
-  return n.toLocaleString("ru-RU").replace(/\s/g, " ");
-}
-
-/** Неразрывные пробелы внутри готовой строки вроде «1 000». */
-export function nb(s: string) {
-  return s.replace(/ /g, " ");
+/** 12345 → «12 345 ₽» (ru) или «12,345 ₽» (en). Цены в рублях в обеих версиях. */
+export function rub(n: number, lang: Lang = "ru") {
+  return `${num(n, lang)} ₽`;
 }

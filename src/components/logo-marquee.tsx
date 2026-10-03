@@ -1,11 +1,15 @@
+"use client";
+
 import { brands } from "@/data/content";
+import { useT } from "@/i18n/use-t";
 import { asset } from "@/lib/asset";
 
 /** Бегущая строка с логотипами и названиями нейросетей. Список продублирован для бесшовного цикла. */
 export function LogoMarquee() {
+  const { t } = useT();
   return (
     <section
-      aria-label="Нейросети в Gulayn"
+      aria-label={t.hero.marquee}
       className="relative w-full overflow-hidden pb-20 pt-12 [mask-image:linear-gradient(90deg,transparent,#000_15%,#000_85%,transparent)]"
     >
       <ul className="marquee flex w-max items-center gap-12">

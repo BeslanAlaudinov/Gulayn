@@ -2,16 +2,19 @@
 
 import { motion } from "motion/react";
 import { useId, useState } from "react";
-import { faq, faqGroups } from "@/data/content";
+import { useT } from "@/i18n/use-t";
 import { Mail, PlusMinus, Send } from "./icons";
 import { EASE, SectionHead, Stagger, StaggerItem } from "./reveal";
 
 /** Частые вопросы: темы слева, ответы справа. Открыт только один ответ, раскрывается плавно. */
 export function Faq() {
+  const { t } = useT();
+  const f = t.faq;
+  const faq = f.items;
   const [group, setGroup] = useState(0);
   const [open, setOpen] = useState<number | null>(0);
   const baseId = useId();
-  const items = faq.filter((f) => f.group === group);
+  const items = faq.filter((x) => x.group === group);
 
   const pickGroup = (g: number) => {
     setGroup(g);
@@ -21,14 +24,14 @@ export function Faq() {
   return (
     <section id="faq" className="mx-auto max-w-[1248px] scroll-mt-16 px-4 py-16 sm:px-8 sm:py-20">
       <SectionHead
-        title="Частые вопросы"
-        lead="Ответы из базы знаний Gulayn. Если чего-то нет, поддержка отвечает в Telegram."
+        title={f.title}
+        lead={f.lead}
       />
 
       <div className="mt-12 grid gap-12 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-16">
         <Stagger className="self-start lg:sticky lg:top-28" gap={0.08} delay={0.3}>
-          <div role="group" aria-label="Темы вопросов" className="flex flex-col gap-1">
-            {faqGroups.map((g, i) => (
+          <div role="group" aria-label={f.groupsLabel} className="flex flex-col gap-1">
+            {f.groups.map((g, i) => (
               <StaggerItem key={g}>
                 <button
                   type="button"
@@ -44,14 +47,14 @@ export function Faq() {
                     />
                   )}
                   <span className="relative">{g}</span>
-                  <i className="relative text-sm not-italic text-faint">{faq.filter((f) => f.group === i).length}</i>
+                  <i className="relative text-sm not-italic text-faint">{faq.filter((x) => x.group === i).length}</i>
                 </button>
               </StaggerItem>
             ))}
           </div>
           <StaggerItem className="mt-6 rounded-[20px] border border-line bg-card p-5">
-            <b className="block text-base font-medium">Не нашли ответ?</b>
-            <span className="mt-1.5 block text-sm leading-normal text-dim">Пишите, отвечаем быстро и по делу.</span>
+            <b className="block text-base font-medium">{f.notFound}</b>
+            <span className="mt-1.5 block text-sm leading-normal text-dim">{f.notFoundLead}</span>
             <div className="mt-4 flex flex-col gap-2">
               <a href="https://t.me/gulayn_bot" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
                 <Send /> Telegram @gulayn_bot
@@ -64,11 +67,11 @@ export function Faq() {
         </Stagger>
 
         <Stagger key={group} className="flex flex-col" gap={0.08} delay={group === 0 ? 0.45 : 0}>
-          {items.map((f, i) => {
+          {items.map((item, i) => {
             const isOpen = open === i;
             const id = `${baseId}-${group}-${i}`;
             return (
-              <StaggerItem key={f.q} className={i > 0 ? "border-t border-line" : ""}>
+              <StaggerItem key={item.q} className={i > 0 ? "border-t border-line" : ""}>
                 <h3>
                   <button
                     type="button"
@@ -79,7 +82,7 @@ export function Faq() {
                       i === 0 ? "pb-5" : "py-5"
                     }`}
                   >
-                    {f.q}
+                    {item.q}
                     <span
                       className={`flex size-8 flex-none items-center justify-center rounded-[10px] border border-line transition-colors duration-300 ${
                         isOpen ? "bg-card-2 text-text" : "text-muted"
@@ -91,7 +94,7 @@ export function Faq() {
                 </h3>
                 <div id={id} role="region" className="answer" data-open={isOpen} inert={!isOpen}>
                   <div>
-                    <p className="mb-6 max-w-[720px] text-base leading-relaxed text-muted">{f.a}</p>
+                    <p className="mb-6 max-w-[720px] text-base leading-relaxed text-muted">{item.a}</p>
                   </div>
                 </div>
               </StaggerItem>

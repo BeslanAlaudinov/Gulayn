@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { ArrowRight, Close } from "./icons";
 import { asset } from "@/lib/asset";
+import { useT } from "@/i18n/use-t";
 
 /**
  * Карточка розыгрыша в углу. Появляется, когда человек доходит до тарифов,
@@ -12,6 +13,8 @@ import { asset } from "@/lib/asset";
  * до обновления страницы: после перезагрузки карточка снова на месте.
  */
 export function RaffleCard() {
+  const { t } = useT();
+  const r = t.raffle;
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export function RaffleCard() {
       {shown && (
         <motion.aside
           id="raffle"
-          aria-label="Розыгрыш iPhone 17 Pro Max"
+          aria-label={r.aria}
           initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, y: 16 }}
@@ -63,21 +66,21 @@ export function RaffleCard() {
             <Image src={asset("/images/iphone-17-pro-max.png")} alt="" fill sizes="76px" className="object-contain p-1" />
           </span>
           <div className="min-w-0 pr-6">
-            <b className="block text-base font-medium">Разыгрываем iPhone 17 Pro Max</b>
+            <b className="block text-base font-medium">{r.title}</b>
             <span className="mt-1 block text-sm leading-snug text-dim">
-              Среди подписчиков «Про» и дороже. Ещё 19 призов до 20&nbsp;000&nbsp;₽.
+              {r.text}
             </span>
             <a
               href="#pricing"
               className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-hover"
             >
-              Как участвовать <ArrowRight size={14} />
+              {r.cta} <ArrowRight size={14} />
             </a>
           </div>
           <button
             type="button"
             onClick={dismiss}
-            aria-label="Скрыть"
+            aria-label={r.hide}
             className="absolute right-3 top-3 flex size-7 items-center justify-center rounded-lg text-faint transition-colors hover:bg-hover hover:text-text"
           >
             <Close size={14} />

@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/use-t";
 import { Download, Refresh, Sparkle } from "./icons";
 import { SectionHead, Stagger, StaggerItem } from "./reveal";
 import { asset } from "@/lib/asset";
@@ -41,35 +44,37 @@ function ModelRow({ logo, name, tag, on = false }: { logo: string; name: string;
 
 /** «Как начать»: три шага на пунктирной линии, у каждого мини-интерфейс. */
 export function HowToStart() {
+  const { t } = useT();
+  const s = t.start;
   return (
     <section id="start" className="mx-auto max-w-[1248px] px-4 py-16 sm:px-8 sm:py-20">
       <SectionHead
-        title="Три шага до первого результата"
-        lead="Регистрация занимает полминуты, а на первые запросы хватит бесплатных токенов."
+        title={s.title}
+        lead={s.lead}
       />
 
       <Stagger className="mt-14 grid gap-12 lg:grid-cols-3 lg:gap-3" gap={0.22} delay={0.35}>
-        <Step n={1} title="Создайте аккаунт" text="30 секунд и 180 токенов в подарок. Карта не нужна.">
+        <Step n={1} title={s.steps[0].title} text={s.steps[0].text}>
           <div className={mock}>
-            <div className={fieldMuted}>you@mail.ru</div>
-            <div className={`${field} justify-center border-text bg-text font-medium text-bg`}>Создать аккаунт</div>
+            <div className={fieldMuted}>{s.email}</div>
+            <div className={`${field} justify-center border-text bg-text font-medium text-bg`}>{s.create}</div>
             <span className="flex h-8 items-center gap-2 self-start rounded-[10px] bg-accent/15 px-3 text-sm text-accent-soft">
               <Sparkle />
-              +180 токенов на баланс
+              {s.gift}
             </span>
           </div>
         </Step>
 
-        <Step n={2} title="Выберите модель" text="30+ нейросетей для текста, картинок, видео и звука. Сменить можно в любой момент.">
+        <Step n={2} title={s.steps[1].title} text={s.steps[1].text}>
           <div className={`${mock} gap-1`}>
-            <ModelRow logo="openai" name="GPT-5.6" tag="от 5 токенов" />
-            <ModelRow logo="nanobanana" name="Nano Banana" tag="от 2 токенов" on />
-            <ModelRow logo="kling" name="Kling" tag="от 28 токенов" />
-            <ModelRow logo="suno" name="Suno" tag="музыка" />
+            <ModelRow logo="openai" name="GPT-5.6" tag={s.from(5)} />
+            <ModelRow logo="nanobanana" name="Nano Banana" tag={s.from(2)} on />
+            <ModelRow logo="kling" name="Kling" tag={s.from(28)} />
+            <ModelRow logo="suno" name="Suno" tag={s.music} />
           </div>
         </Step>
 
-        <Step n={3} title="Получите результат" text="Генерируйте, дорабатывайте и скачивайте. Платите только за то, что получилось.">
+        <Step n={3} title={s.steps[2].title} text={s.steps[2].text}>
           <div className={mock}>
             <div className="flex items-center gap-3 rounded-xl border border-line bg-well p-3">
               <span
@@ -77,18 +82,18 @@ export function HowToStart() {
                 style={{ background: "radial-gradient(60% 50% at 30% 40%, #ff8a57, transparent 70%), radial-gradient(60% 60% at 75% 65%, #7aa2ff, transparent 70%), #1b1b1e" }}
               />
               <span>
-                <b className="block text-sm font-medium">Обложка подкаста готова</b>
-                <span className="mt-1 block text-xs text-dim">Nano Banana · списано 2 токена</span>
+                <b className="block text-sm font-medium">{s.ready}</b>
+                <span className="mt-1 block text-xs text-dim">{s.readyMeta}</span>
               </span>
             </div>
             <div className="mt-auto flex gap-2">
               <span className={`${field} flex-1 justify-center gap-2 border-line bg-well text-soft`}>
                 <Refresh />
-                Доработать
+                {s.refine}
               </span>
               <span className={`${field} flex-1 justify-center gap-2 border-accent bg-accent font-medium text-on-accent`}>
                 <Download />
-                Скачать
+                {s.download}
               </span>
             </div>
           </div>
