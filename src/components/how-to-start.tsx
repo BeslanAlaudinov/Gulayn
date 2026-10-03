@@ -5,7 +5,7 @@ import { Download, Refresh, Sparkle } from "./icons";
 import { SectionHead, Stagger, StaggerItem } from "./reveal";
 import { asset } from "@/lib/asset";
 
-const mock = "flex h-58 flex-col gap-2.5 rounded-[20px] border border-line bg-card p-5";
+const mock = "flex flex-col gap-2.5 rounded-[20px] border border-line bg-card p-5 lg:h-58";
 const field = "flex h-11 items-center rounded-xl border px-3.5 text-sm";
 const fieldMuted = `${field} border-line bg-well text-dim`;
 
@@ -86,7 +86,7 @@ export function HowToStart() {
                 <span className="mt-1 block text-xs text-dim">{s.readyMeta}</span>
               </span>
             </div>
-            <div className="mt-auto flex gap-2">
+            <div className="mt-2 flex gap-2 lg:mt-auto">
               <span className={`${field} flex-1 justify-center gap-2 border-line bg-well text-soft`}>
                 <Refresh />
                 {s.refine}

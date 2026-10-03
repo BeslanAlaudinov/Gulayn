@@ -30,9 +30,6 @@ export function Hero() {
         <Reveal onLoad delay={0.5} className="mt-12 flex w-full justify-center">
           <PromptBar />
         </Reveal>
-        <Reveal onLoad delay={0.7}>
-          <p className="mt-4 text-sm text-dim">{t.hero.note}</p>
-        </Reveal>
       </div>
 
       <Reveal onLoad delay={0.9} className="relative z-10 mt-8 w-full sm:mt-auto">

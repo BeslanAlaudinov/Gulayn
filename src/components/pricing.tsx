@@ -26,14 +26,14 @@ function Segmented<T extends string>({
   label: string;
 }) {
   return (
-    <div role="group" aria-label={label} className="inline-flex gap-1 rounded-[14px] bg-card p-1">
+    <div role="group" aria-label={label} className="flex w-full gap-1 rounded-[14px] bg-card p-1 lg:inline-flex lg:w-auto">
       {options.map((o) => (
         <button
           key={o.v}
           type="button"
           aria-pressed={value === o.v}
           onClick={() => onChange(o.v)}
-          className="group relative flex h-10 items-center gap-2 rounded-[10px] px-4 text-sm text-muted transition-colors duration-300 hover:text-text aria-pressed:text-bg"
+          className="group relative flex h-10 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-[10px] px-4 text-sm text-muted transition-colors duration-300 hover:text-text aria-pressed:text-bg lg:flex-none"
         >
           {value === o.v && (
             <motion.span
@@ -190,7 +190,7 @@ export function Pricing() {
             </p>
           </StaggerItem>
         </div>
-        <StaggerItem className="flex flex-wrap gap-3">
+        <StaggerItem className="flex w-full flex-col gap-3 lg:w-auto lg:flex-row">
           <Segmented
             id="who"
             label={t.who}

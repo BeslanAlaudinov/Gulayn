@@ -164,18 +164,18 @@ export function ModelsBento() {
         </StaggerItem>
 
         <StaggerItem className="col-span-6">
-          <div className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border border-line bg-card p-6">
-            <div className="flex flex-wrap gap-12">
+          <div className="flex flex-col gap-6 rounded-3xl border border-line bg-card p-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:p-6">
+            <div className="grid grid-cols-3 gap-3 sm:flex sm:gap-12">
               {m.stats.map(([n, l]) => (
                 <div key={l}>
-                  <b className="block text-[32px] font-medium tracking-[-1px]">{n}</b>
-                  <span className="mt-1 block text-sm text-dim">{l}</span>
+                  <b className="block whitespace-nowrap text-2xl font-medium tracking-[-0.8px] sm:text-[32px] sm:tracking-[-1px]">{n}</b>
+                  <span className="mt-1 block text-xs leading-snug text-dim sm:text-sm">{l}</span>
                 </div>
               ))}
             </div>
             <a
               href="#register"
-              className="flex h-12 items-center gap-2 rounded-[14px] bg-accent pl-6 pr-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
+              className="flex h-12 items-center justify-center gap-2 rounded-[14px] bg-accent pl-6 pr-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
             >
               {m.cta} <ArrowRight />
             </a>

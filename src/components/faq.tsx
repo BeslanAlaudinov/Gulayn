@@ -4,7 +4,25 @@ import { motion } from "motion/react";
 import { useId, useState } from "react";
 import { useT } from "@/i18n/use-t";
 import { Mail, PlusMinus, Send } from "./icons";
-import { EASE, SectionHead, Stagger, StaggerItem } from "./reveal";
+import { EASE, Reveal, SectionHead, Stagger, StaggerItem } from "./reveal";
+
+/** Карточка «Не нашли ответ?» с контактами поддержки. */
+function HelpCard({ title, lead }: { title: string; lead: string }) {
+  return (
+    <div className="rounded-[20px] border border-line bg-card p-5">
+      <b className="block text-base font-medium">{title}</b>
+      <span className="mt-1.5 block text-sm leading-normal text-dim">{lead}</span>
+      <div className="mt-4 flex flex-col gap-2">
+        <a href="https://t.me/gulayn_bot" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
+          <Send /> Telegram @gulayn_bot
+        </a>
+        <a href="mailto:support@gulayn.ru" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
+          <Mail /> support@gulayn.ru
+        </a>
+      </div>
+    </div>
+  );
+}
 
 /** Частые вопросы: темы слева, ответы справа. Открыт только один ответ, раскрывается плавно. */
 export function Faq() {
@@ -52,17 +70,8 @@ export function Faq() {
               </StaggerItem>
             ))}
           </div>
-          <StaggerItem className="mt-6 rounded-[20px] border border-line bg-card p-5">
-            <b className="block text-base font-medium">{f.notFound}</b>
-            <span className="mt-1.5 block text-sm leading-normal text-dim">{f.notFoundLead}</span>
-            <div className="mt-4 flex flex-col gap-2">
-              <a href="https://t.me/gulayn_bot" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
-                <Send /> Telegram @gulayn_bot
-              </a>
-              <a href="mailto:support@gulayn.ru" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
-                <Mail /> support@gulayn.ru
-              </a>
-            </div>
+          <StaggerItem className="mt-6 hidden lg:block">
+            <HelpCard title={f.notFound} lead={f.notFoundLead} />
           </StaggerItem>
         </Stagger>
 
@@ -101,6 +110,10 @@ export function Faq() {
             );
           })}
         </Stagger>
+
+        <Reveal className="lg:hidden">
+          <HelpCard title={f.notFound} lead={f.notFoundLead} />
+        </Reveal>
       </div>
     </section>
   );
