@@ -6,7 +6,8 @@ import { LangShortButton } from "./lang-toggle";
 import { MobileMenu } from "./mobile-menu";
 import { ThemeIconButton } from "./theme-toggle";
 
-/** Шапка-чёлка: прилипает к верхнему краю окна и остаётся на месте при скролле. */
+/** Шапка-чёлка: прилипает к верхнему краю окна и остаётся на месте при скролле.
+ *  На телефоне висит под 6px полосой из layout: у края должна быть только полоса, иначе Safari 26 не красит строку состояния. */
 export function Header() {
   const { t } = useT();
   const links = [
@@ -18,7 +19,7 @@ export function Header() {
   ];
 
   return (
-    <header className="theme-dark notch fixed left-1/2 top-[env(safe-area-inset-top)] z-50 flex -translate-x-1/2 items-center gap-4 rounded-b-[20px] bg-black py-2 pl-4 pr-2 sm:gap-6">
+    <header className="theme-dark notch fixed left-1/2 top-[max(env(safe-area-inset-top),6px)] z-50 flex -translate-x-1/2 items-center gap-4 rounded-b-[20px] bg-black py-2 pl-4 pr-2 sm:top-[env(safe-area-inset-top)] sm:gap-6">
       <a href="#top" className="flex items-center gap-2 text-text">
         <GulaynMark />
         <span className="text-base font-medium">Gulayn</span>
