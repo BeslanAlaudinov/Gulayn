@@ -7,10 +7,12 @@ import { ArrowRight, Close } from "./icons";
 import { asset } from "@/lib/asset";
 import { useT } from "@/i18n/use-t";
 
+/** Через сколько после захода на сайт всплывает карточка розыгрыша. */
+const SHOW_AFTER_MS = 5000;
+
 /**
- * Карточка розыгрыша в углу. Появляется, когда человек доходит до тарифов,
- * или сразу по ссылке «Розыгрыш» в шапке (#raffle). Крестик скрывает её только
- * до обновления страницы: после перезагрузки карточка снова на месте.
+ * Карточка розыгрыша в углу. Всплывает через 5 секунд после захода и ведёт на
+ * страницу розыгрыша. Крестик скрывает её только до обновления страницы.
  */
 export function RaffleCard() {
   const { t } = useT();
@@ -18,37 +20,11 @@ export function RaffleCard() {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const openFromHash = () => {
-      if (location.hash === "#raffle") setShown(true);
-    };
-    const raf = requestAnimationFrame(openFromHash);
-    window.addEventListener("hashchange", openFromHash);
-
-    const pricing = document.getElementById("pricing");
-    let observer: IntersectionObserver | undefined;
-    if (pricing) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setShown(true);
-            observer?.disconnect();
-          }
-        },
-        { threshold: 0.2 },
-      );
-      observer.observe(pricing);
-    }
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("hashchange", openFromHash);
-      observer?.disconnect();
-    };
+    const timer = window.setTimeout(() => setShown(true), SHOW_AFTER_MS);
+    return () => window.clearTimeout(timer);
   }, []);
 
-  const dismiss = () => {
-    setShown(false);
-    if (location.hash === "#raffle") history.replaceState(null, "", location.pathname);
-  };
+  const dismiss = () => setShown(false);
 
   return (
     <AnimatePresence>
@@ -71,7 +47,7 @@ export function RaffleCard() {
               {r.text}
             </span>
             <a
-              href="#pricing"
+              href="https://gulayn.ru/raffle"
               className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-hover"
             >
               {r.cta} <ArrowRight size={14} />

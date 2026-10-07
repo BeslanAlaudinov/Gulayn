@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { useT } from "@/i18n/use-t";
+import { Download } from "./icons";
 import { LangLabelButton } from "./lang-toggle";
 import { EASE } from "./reveal";
 import { ThemeLabelButton } from "./theme-toggle";
@@ -67,6 +68,13 @@ export function MobileMenu({ links }: { links: Link[] }) {
               </a>
             ))}
             <a
+              href="#download"
+              onClick={() => setOpen(false)}
+              className="flex h-12 items-center gap-2.5 rounded-xl px-4 text-base text-soft transition-colors hover:bg-hover hover:text-text"
+            >
+              <Download /> {t.header.download}
+            </a>
+            <a
               href="#login"
               onClick={() => setOpen(false)}
               className="flex h-12 items-center rounded-xl px-4 text-base text-soft transition-colors hover:bg-hover hover:text-text sm:hidden"
@@ -74,7 +82,7 @@ export function MobileMenu({ links }: { links: Link[] }) {
               {t.header.login}
             </a>
             <div className="mt-2 flex gap-2 border-t border-line p-2 pt-4">
-              <LangLabelButton className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] border border-line text-sm text-muted transition-colors hover:text-text" />
+              <LangLabelButton wrapClassName="flex-1" className="flex h-10 w-full items-center justify-center gap-2 rounded-[10px] border border-line text-sm text-muted transition-colors hover:text-text" />
               <ThemeLabelButton className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] border border-line text-sm text-muted transition-colors hover:text-text" />
             </div>
           </motion.nav>

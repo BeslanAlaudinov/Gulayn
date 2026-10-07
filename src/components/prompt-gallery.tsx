@@ -92,7 +92,7 @@ export function PromptGallery() {
               type="button"
               aria-pressed={i === cur}
               onClick={() => go(i)}
-              className="group flex w-full flex-col gap-2 rounded-[14px] border border-line p-1.5 pb-2.5 text-left text-xs text-muted transition-colors hover:text-text aria-pressed:border-accent aria-pressed:bg-card aria-pressed:text-text"
+              className="group flex w-full flex-col gap-2 rounded-[14px] border border-transparent p-1.5 pb-2.5 text-left text-xs text-muted transition-colors hover:text-text aria-pressed:bg-card aria-pressed:text-text"
             >
               <span className="relative block h-16 overflow-hidden rounded-[10px]">
                 <Image
@@ -109,8 +109,8 @@ export function PromptGallery() {
         ))}
       </Stagger>
 
-      <Reveal delay={0.6} className="mt-3 grid gap-3 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-card md:aspect-square">
+      <Reveal delay={0.6} className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-card lg:aspect-square lg:w-full lg:self-stretch">
           <AnimatePresence initial={false}>
             <motion.div
               key={item.image}
@@ -120,7 +120,7 @@ export function PromptGallery() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              <Image src={asset(item.image)} alt={item.title} fill sizes="(min-width: 768px) 560px, 100vw" className="object-cover" />
+              <Image src={asset(item.image)} alt={item.title} fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
             </motion.div>
           </AnimatePresence>
           <span className="absolute left-4 top-4 flex h-8 items-center rounded-[10px] bg-black/60 px-3 text-sm text-white">

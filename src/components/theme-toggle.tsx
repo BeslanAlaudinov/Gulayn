@@ -32,11 +32,12 @@ function applyTheme(next: Theme) {
  */
 function setTheme(next: Theme) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || !("startViewTransition" in document)) {
+  if (reduce || document.hidden || !("startViewTransition" in document)) {
     applyTheme(next);
     return;
   }
-  document.startViewTransition(() => applyTheme(next));
+  // Переход может сорваться (вкладку свернули на середине) — смена всё равно применится.
+  document.startViewTransition(() => applyTheme(next)).ready.catch(() => {});
 }
 
 export function useTheme() {

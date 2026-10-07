@@ -21,7 +21,7 @@ const ru = {
   lang: {
     short: "RU",
     name: "Русский",
-    switchTo: "Switch to English",
+    choose: "Выбрать язык",
   },
 
   theme: {
@@ -35,6 +35,7 @@ const ru = {
     mainNav: "Основное меню",
     nav: { models: "Модели", features: "Возможности", pricing: "Тарифы", raffle: "Розыгрыш", faq: "FAQ" },
     login: "Войти",
+    download: "Скачать",
     try: "Попробовать",
     menu: "Меню",
     openMenu: "Открыть меню",
@@ -78,12 +79,25 @@ const ru = {
       track: "Утро у моря",
       meta: "Suno · инди для рекламы кофейни · 0:30",
     },
-    stats: [
-      ["200+", "моделей"],
-      ["31+", "сервис"],
-      ["1 клик", "чтобы сменить модель"],
-    ],
-    cta: "Попробовать бесплатно",
+  },
+
+  families: {
+    title: "Все семейства нейросетей",
+    lead: "Выберите семейство, а точную модель уже в чате. Сменить можно в любой момент.",
+    modelsLabel: "моделей",
+    familiesLabel: "семейство",
+    models: (n: number) => {
+      const a = n % 10, b = n % 100;
+      const w = a === 1 && b !== 11 ? "модель" : a >= 2 && a <= 4 && (b < 12 || b > 14) ? "модели" : "моделей";
+      return `${n} ${w}`;
+    },
+    cats: { text: "Текст", image: "Изображения", video: "Видео", audio: "Аудио" } as Record<string, string>,
+    more: (n: number, names: string) => {
+      const a = n % 10, b = n % 100;
+      const w = a === 1 && b !== 11 ? "семейство" : a >= 2 && a <= 4 && (b < 12 || b > 14) ? "семейства" : "семейств";
+      return `И ещё ${n} ${w}: ${names} и другие`;
+    },
+    catalog: "Весь каталог",
   },
 
   gallery: {
@@ -172,11 +186,11 @@ const ru = {
           { text: " " },
           { tag: "subj", text: "ночного города" },
           { text: " " },
-          { tag: "cam", text: "с крыши" },
+          { tag: "cam", text: "с улицы" },
           { text: ": " },
           { tag: "cam", text: "световые следы машин текут по проспекту" },
           { text: ", " },
-          { tag: "light", text: "тёплые окна и холодное синее небо" },
+          { tag: "light", text: "тёплые окна и холодное тёмное небо" },
           { text: "." },
         ],
       },
@@ -197,12 +211,12 @@ const ru = {
         ],
       },
       {
-        title: "Полоса света",
-        tip: "Один источник света и глубокая тень дают драму. Уточните, где именно лежит свет.",
+        title: "Свет сквозь жалюзи",
+        tip: "Один источник света и глубокая тень дают драму. Назовите, через что проходит свет: жалюзи, решётка или листва рисуют на лице свой узор.",
         segments: [
-          { tag: "subj", text: "Интимный портрет из темноты" },
+          { tag: "subj", text: "Портрет из темноты" },
           { text: ": " },
-          { tag: "light", text: "одна тёплая полоса света на лице" },
+          { tag: "light", text: "свет падает сквозь жалюзи и ложится полосами на лицо" },
           { text: ", " },
           { tag: "mood", text: "сдержанный цвет" },
           { text: " и " },
@@ -311,6 +325,7 @@ const ru = {
     groups: ["Начало работы", "Токены и оплата", "Команды и розыгрыш", "Данные и поддержка"],
     notFound: "Не нашли ответ?",
     notFoundLead: "Пишите, отвечаем быстро и по делу.",
+    channel: "Канал",
     items: [
       { group: 0, q: "Что такое Gulayn?", a: "Сервис, где одна подписка открывает 30+ топовых нейросетей для текста, изображений, видео и аудио. Не нужно заводить и оплачивать десятки отдельных сервисов: всё в одном окне, с общим балансом токенов." },
       { group: 0, q: "Какие модели доступны?", a: "Текст: GPT-5.6, Claude, Gemini 3, Grok, DeepSeek, Qwen, MiniMax, Mistral, Kimi, GLM. Картинки: GPT Image, Nano Banana, FLUX, Kling, Qwen Image. Видео: Veo, Runway, Kling, MiniMax Hailuo, Pika. Аудио: ElevenLabs, Suno, Gemini TTS, MiniMax. Каталог регулярно пополняется." },
@@ -352,7 +367,7 @@ const ru = {
           ["Модели", "#models"],
           ["Возможности", "#features"],
           ["Тарифы", "#pricing"],
-          ["Розыгрыш", "#raffle"],
+          ["Розыгрыш", "https://gulayn.ru/raffle"],
           ["Скачать", "#download"],
         ],
       },
@@ -409,7 +424,7 @@ const en: Dict = {
   lang: {
     short: "EN",
     name: "English",
-    switchTo: "Переключить на русский",
+    choose: "Choose language",
   },
 
   theme: {
@@ -423,6 +438,7 @@ const en: Dict = {
     mainNav: "Main menu",
     nav: { models: "Models", features: "Features", pricing: "Pricing", raffle: "Giveaway", faq: "FAQ" },
     login: "Log in",
+    download: "Download",
     try: "Try it",
     menu: "Menu",
     openMenu: "Open menu",
@@ -466,12 +482,17 @@ const en: Dict = {
       track: "Morning by the sea",
       meta: "Suno · indie for a coffee shop ad · 0:30",
     },
-    stats: [
-      ["200+", "models"],
-      ["31+", "services"],
-      ["1 click", "to switch models"],
-    ],
-    cta: "Try for free",
+  },
+
+  families: {
+    title: "Every AI family",
+    lead: "Pick a family, then the exact model right in the chat. Switch any time.",
+    modelsLabel: "models",
+    familiesLabel: "families",
+    models: (n: number) => `${n} ${n === 1 ? "model" : "models"}`,
+    cats: { text: "Text", image: "Images", video: "Video", audio: "Audio" },
+    more: (n: number, names: string) => `And ${n} more ${n === 1 ? "family" : "families"}: ${names} and others`,
+    catalog: "Full catalog",
   },
 
   gallery: {
@@ -560,11 +581,11 @@ const en: Dict = {
           { text: " of a " },
           { tag: "subj", text: "night city" },
           { text: " " },
-          { tag: "cam", text: "from a rooftop" },
+          { tag: "cam", text: "from the street" },
           { text: ": " },
           { tag: "cam", text: "car light trails flow down the avenue" },
           { text: ", " },
-          { tag: "light", text: "warm windows and a cold blue sky" },
+          { tag: "light", text: "warm windows and a cold dark sky" },
           { text: "." },
         ],
       },
@@ -585,12 +606,12 @@ const en: Dict = {
         ],
       },
       {
-        title: "Stripe of light",
-        tip: "One light source and deep shadow create drama. Say exactly where the light falls.",
+        title: "Light through blinds",
+        tip: "One light source and deep shadow create drama. Name what the light passes through: blinds, a grille or leaves each cast their own pattern.",
         segments: [
-          { tag: "subj", text: "Intimate portrait out of darkness" },
+          { tag: "subj", text: "Portrait out of darkness" },
           { text: ": " },
-          { tag: "light", text: "a single warm stripe of light across the face" },
+          { tag: "light", text: "light falls through window blinds in stripes across the face" },
           { text: ", " },
           { tag: "mood", text: "restrained color" },
           { text: " and " },
@@ -699,6 +720,7 @@ const en: Dict = {
     groups: ["Getting started", "Tokens and payment", "Teams and giveaway", "Data and support"],
     notFound: "Didn't find an answer?",
     notFoundLead: "Write to us, we reply quickly and to the point.",
+    channel: "Channel",
     items: [
       { group: 0, q: "What is Gulayn?", a: "A service where one subscription unlocks 30+ top neural networks for text, images, video and audio. No need to sign up and pay for dozens of separate services: everything is in one window with a shared token balance." },
       { group: 0, q: "Which models are available?", a: "Text: GPT-5.6, Claude, Gemini 3, Grok, DeepSeek, Qwen, MiniMax, Mistral, Kimi, GLM. Images: GPT Image, Nano Banana, FLUX, Kling, Qwen Image. Video: Veo, Runway, Kling, MiniMax Hailuo, Pika. Audio: ElevenLabs, Suno, Gemini TTS, MiniMax. The catalog is updated regularly." },
@@ -740,7 +762,7 @@ const en: Dict = {
           ["Models", "#models"],
           ["Features", "#features"],
           ["Pricing", "#pricing"],
-          ["Giveaway", "#raffle"],
+          ["Giveaway", "https://gulayn.ru/raffle"],
           ["Download", "#download"],
         ],
       },

@@ -11,7 +11,7 @@ const fieldMuted = `${field} border-line bg-well text-dim`;
 
 function Step({ n, title, text, children }: { n: number; title: string; text: string; children: React.ReactNode }) {
   return (
-    <StaggerItem className="flex flex-col gap-5">
+    <StaggerItem className="flex flex-col gap-5 lg:row-span-4 lg:grid lg:grid-rows-subgrid">
       <div className="flex items-center gap-3">
         <span className="flex size-8 flex-none items-center justify-center rounded-[10px] bg-accent text-sm font-medium text-on-accent">
           {n}
@@ -53,7 +53,7 @@ export function HowToStart() {
         lead={s.lead}
       />
 
-      <Stagger className="mt-14 grid gap-12 lg:grid-cols-3 lg:gap-3" gap={0.22} delay={0.35}>
+      <Stagger className="mt-14 grid gap-12 lg:grid-cols-3 lg:gap-x-3 lg:gap-y-5" gap={0.22} delay={0.35}>
         <Step n={1} title={s.steps[0].title} text={s.steps[0].text}>
           <div className={mock}>
             <div className={fieldMuted}>{s.email}</div>

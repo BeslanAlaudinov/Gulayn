@@ -15,6 +15,14 @@ export function ArrowRight({ size = 16, className = "" }: IconProps) {
   );
 }
 
+export function ArrowUpRight({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" {...stroke} strokeWidth={1.8} className={className} aria-hidden="true">
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
+  );
+}
+
 export function Plus({ size = 16, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" {...stroke} strokeWidth={1.8} className={className} aria-hidden="true">

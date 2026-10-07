@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { HowToStart } from "@/components/how-to-start";
+import { FamilyGrid } from "@/components/family-grid";
 import { ModelsBento } from "@/components/models-bento";
 import { Pricing } from "@/components/pricing";
 import { PromptGallery } from "@/components/prompt-gallery";
@@ -18,6 +19,7 @@ export default function Home() {
       <main>
         <Hero />
         <ModelsBento />
+        <FamilyGrid />
         <PromptGallery />
         <HowToStart />
         <WhyGulayn />

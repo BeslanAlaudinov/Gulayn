@@ -24,11 +24,12 @@ function applyLang(next: Lang) {
 /** Смена языка с плавным перетеканием, как у темы. */
 export function setLang(next: Lang) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || !("startViewTransition" in document)) {
+  if (reduce || document.hidden || !("startViewTransition" in document)) {
     applyLang(next);
     return;
   }
-  document.startViewTransition(() => applyLang(next));
+  // Переход может сорваться (вкладку свернули на середине) — смена всё равно применится.
+  document.startViewTransition(() => applyLang(next)).ready.catch(() => {});
 }
 
 export function useLang() {

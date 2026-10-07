@@ -7,7 +7,7 @@ import { Mail, PlusMinus, Send } from "./icons";
 import { EASE, Reveal, SectionHead, Stagger, StaggerItem } from "./reveal";
 
 /** Карточка «Не нашли ответ?» с контактами поддержки. */
-function HelpCard({ title, lead }: { title: string; lead: string }) {
+function HelpCard({ title, lead, channel }: { title: string; lead: string; channel: string }) {
   return (
     <div className="rounded-[20px] border border-line bg-card p-5">
       <b className="block text-base font-medium">{title}</b>
@@ -18,6 +18,9 @@ function HelpCard({ title, lead }: { title: string; lead: string }) {
         </a>
         <a href="mailto:support@gulayn.ru" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
           <Mail /> support@gulayn.ru
+        </a>
+        <a href="https://t.me/gulayn_ai" className="flex h-10 items-center gap-2.5 rounded-[10px] border border-line bg-well px-3 text-sm transition-colors hover:border-line-strong">
+          <Send /> {channel} @gulayn_ai
         </a>
       </div>
     </div>
@@ -71,7 +74,7 @@ export function Faq() {
             ))}
           </div>
           <StaggerItem className="mt-6 hidden lg:block">
-            <HelpCard title={f.notFound} lead={f.notFoundLead} />
+            <HelpCard title={f.notFound} lead={f.notFoundLead} channel={f.channel} />
           </StaggerItem>
         </Stagger>
 
@@ -112,7 +115,7 @@ export function Faq() {
         </Stagger>
 
         <Reveal className="lg:hidden">
-          <HelpCard title={f.notFound} lead={f.notFoundLead} />
+          <HelpCard title={f.notFound} lead={f.notFoundLead} channel={f.channel} />
         </Reveal>
       </div>
     </section>

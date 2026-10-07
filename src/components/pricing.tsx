@@ -77,7 +77,7 @@ function PlanCard({ plan, team, ctx }: { plan: Plan | TeamPlan; team?: boolean; 
     <article
       className={`relative flex h-full flex-col gap-5 rounded-3xl border p-7 ${
         plan.hot
-          ? "border-accent/60 bg-[linear-gradient(180deg,rgb(255_107_53/0.08),rgb(255_107_53/0)_40%),var(--color-card)]"
+          ? "border-accent/60 bg-card bg-[image:linear-gradient(180deg,var(--hot-tint),transparent_40%)]"
           : "border-line bg-card"
       }`}
     >
@@ -88,7 +88,7 @@ function PlanCard({ plan, team, ctx }: { plan: Plan | TeamPlan; team?: boolean; 
             <span className="flex h-6.5 items-center rounded-lg bg-accent px-2.5 text-xs font-medium text-on-accent">{t.popular}</span>
           )}
         </div>
-        <div className="mt-1 text-sm text-dim">{text.note}</div>
+        <div className={`mt-1 text-sm text-dim ${team ? "lg:min-h-10" : ""}`}>{text.note}</div>
       </div>
       <div>
         <div className="flex items-baseline gap-1.5 tabular-nums">

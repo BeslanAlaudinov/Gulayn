@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useT } from "@/i18n/use-t";
-import { ArrowRight, Pause, Play } from "./icons";
+import { Pause, Play } from "./icons";
 import { SectionHead, Stagger, StaggerItem } from "./reveal";
 import { asset } from "@/lib/asset";
 
@@ -26,7 +26,7 @@ function TileTitle({ title, note }: { title: string; note?: string }) {
 }
 
 const tile =
-  "relative flex h-full flex-col gap-5 overflow-hidden rounded-3xl border border-line bg-card p-6 transition-[border-color,transform] duration-500 ease-out hover:-translate-y-0.5 hover:border-line-strong";
+  "relative flex h-full flex-col gap-5 overflow-hidden rounded-3xl border border-line bg-card p-6 transition-[border-color,translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-tile-hover";
 
 const wave = [30, 52, 70, 44, 88, 62, 96, 40, 74, 58, 100, 66, 48, 84, 36, 72, 92, 54, 64, 42, 80, 58, 98, 46, 70, 86, 38, 62, 90, 50, 76, 44];
 
@@ -44,7 +44,7 @@ function ChatAnswer({ logo, children }: { logo: string; children: React.ReactNod
 
 function Bubble({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`ml-auto max-w-full rounded-2xl rounded-br-sm bg-card-2 px-4 py-3 text-sm leading-normal sm:max-w-[72%] ${className}`}>
+    <div className={`ml-auto max-w-full rounded-2xl rounded-br-sm bg-bubble px-4 py-3 text-sm leading-normal sm:max-w-[72%] ${className}`}>
       {children}
     </div>
   );
@@ -156,30 +156,11 @@ export function ModelsBento() {
               </div>
               <div aria-hidden="true" className="flex h-18 items-center gap-1">
                 {wave.map((h, i) => (
-                  <i key={i} className={`flex-1 rounded-sm ${i < 12 ? "bg-accent" : "bg-wave-off"}`} style={{ height: `${h}%` }} />
+                  <i key={i} className={`flex-1 rounded-full ${i < 12 ? "bg-accent" : "bg-wave-off"}`} style={{ height: `${h}%` }} />
                 ))}
               </div>
             </div>
           </a>
-        </StaggerItem>
-
-        <StaggerItem className="col-span-6">
-          <div className="flex flex-col gap-6 rounded-3xl border border-line bg-card p-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:p-6">
-            <div className="grid grid-cols-3 gap-3 sm:flex sm:gap-12">
-              {m.stats.map(([n, l]) => (
-                <div key={l}>
-                  <b className="block whitespace-nowrap text-2xl font-medium tracking-[-0.8px] sm:text-[32px] sm:tracking-[-1px]">{n}</b>
-                  <span className="mt-1 block text-xs leading-snug text-dim sm:text-sm">{l}</span>
-                </div>
-              ))}
-            </div>
-            <a
-              href="#register"
-              className="flex h-12 items-center justify-center gap-2 rounded-[14px] bg-accent pl-6 pr-5 text-base font-medium text-on-accent transition-colors hover:bg-accent-hover"
-            >
-              {m.cta} <ArrowRight />
-            </a>
-          </div>
         </StaggerItem>
       </Stagger>
     </section>

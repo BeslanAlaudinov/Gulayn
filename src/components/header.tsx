@@ -1,7 +1,7 @@
 "use client";
 
 import { useT } from "@/i18n/use-t";
-import { GulaynMark } from "./icons";
+import { Download, GulaynMark } from "./icons";
 import { LangShortButton } from "./lang-toggle";
 import { MobileMenu } from "./mobile-menu";
 import { ThemeIconButton } from "./theme-toggle";
@@ -14,7 +14,7 @@ export function Header() {
     { href: "#models", label: t.header.nav.models },
     { href: "#features", label: t.header.nav.features },
     { href: "#pricing", label: t.header.nav.pricing },
-    { href: "#raffle", label: t.header.nav.raffle },
+    { href: "https://gulayn.ru/raffle", label: t.header.nav.raffle },
     { href: "#faq", label: t.header.nav.faq },
   ];
 
@@ -34,6 +34,9 @@ export function Header() {
       <div className="flex items-center gap-1">
         <LangShortButton className="hidden h-9 items-center gap-1.5 rounded-[10px] px-2.5 text-sm text-muted transition-colors hover:bg-hover hover:text-text sm:flex" />
         <ThemeIconButton className="hidden size-9 items-center justify-center rounded-[10px] text-muted transition-colors hover:bg-hover hover:text-text sm:flex" />
+        <a href="#download" className="hidden h-9 items-center gap-1.5 whitespace-nowrap rounded-[10px] px-2.5 text-sm text-muted transition-colors hover:bg-hover hover:text-text lg:flex">
+          <Download /> {t.header.download}
+        </a>
         <a href="#login" className="hidden whitespace-nowrap px-3 py-2 text-sm text-muted transition-colors hover:text-text sm:block">
           {t.header.login}
         </a>
